@@ -6,6 +6,8 @@ package shop;
 public class ShoppingCart {
     private int totalInOre = 0;
     private final java.util.Map<String, Integer> itemTotals = new java.util.HashMap<>();
+    private final java.util.Map<String, Integer> unitPrices = new java.util.HashMap<>();
+    private final java.util.Map<String, Integer> quantities = new java.util.HashMap<>();
 
     /**
      * Totalpris i öre. Tom varukorg -> 0.
@@ -18,9 +20,17 @@ public class ShoppingCart {
      * Lägger till en vara genom att öka totalpriset med pris * kvantitet.
      */
     public void addItem(String name, int priceInOre, int quantity) {
-        int delta = priceInOre * quantity;
-        totalInOre += delta;
-        itemTotals.merge(name, delta, Integer::sum);
+        // Spara enhetspris första gången vi ser varan
+        unitPrices.putIfAbsent(name, priceInOre);
+
+        int newQuantity = quantities.getOrDefault(name, 0) + quantity;
+        quantities.put(name, newQuantity);
+
+        int previousSubtotal = itemTotals.getOrDefault(name, 0);
+        int newSubtotal = unitPrices.get(name) * newQuantity;
+
+        itemTotals.put(name, newSubtotal);
+        totalInOre += (newSubtotal - previousSubtotal);
     }
 
     /**
@@ -31,6 +41,23 @@ public class ShoppingCart {
         Integer subtotal = itemTotals.remove(name);
         if (subtotal != null) {
             totalInOre -= subtotal;
+            unitPrices.remove(name);
+            quantities.remove(name);
         }
+    }
+
+    /**
+     * Uppdaterar kvantiteten för en befintlig vara. Om varan inte finns händer inget.
+     */
+    public void updateQuantity(String name, int newQuantity) {
+        Integer unit = unitPrices.get(name);
+        if (unit == null) return;
+
+        int previousSubtotal = itemTotals.getOrDefault(name, 0);
+        int newSubtotal = unit * newQuantity;
+
+        itemTotals.put(name, newSubtotal);
+        quantities.put(name, newQuantity);
+        totalInOre += (newSubtotal - previousSubtotal);
     }
 }

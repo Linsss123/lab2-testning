@@ -42,4 +42,17 @@ class ShoppingCartTest {
 
         assertThat(cart.getTotalPriceInOre()).isEqualTo(199);
     }
+
+    @Test
+    @DisplayName("Uppdatera kvantitet justerar totalpriset")
+    void updateQuantity_adjustsTotal() {
+        ShoppingCart cart = new ShoppingCart();
+
+        cart.addItem("Apelsin", 500, 1); // 500 öre
+        cart.addItem("Banan", 200, 3);   // +600 = 1100 öre
+
+        cart.updateQuantity("Banan", 1); // Banan subtotal från 600 -> 200, total 700
+
+        assertThat(cart.getTotalPriceInOre()).isEqualTo(700);
+    }
 }
