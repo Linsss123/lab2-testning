@@ -29,4 +29,17 @@ class ShoppingCartTest {
 
         assertThat(cart.getTotalPriceInOre()).isEqualTo(598);
     }
+
+    @Test
+    @DisplayName("Ta bort en vara minskar totalpriset korrekt")
+    void removeItem_decreasesTotal() {
+        ShoppingCart cart = new ShoppingCart();
+
+        cart.addItem("Äpple", 299, 2); // 598 öre
+        cart.addItem("Banan", 199, 1); // +199 = 797 öre
+
+        cart.removeItem("Äpple"); // kvar 199 öre
+
+        assertThat(cart.getTotalPriceInOre()).isEqualTo(199);
+    }
 }
