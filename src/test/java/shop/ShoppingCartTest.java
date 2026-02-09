@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * TDD Cykel 1: Starta enkelt – en ny varukorg har totalpris 0.
@@ -54,5 +55,15 @@ class ShoppingCartTest {
         cart.updateQuantity("Banan", 1); // Banan subtotal från 600 -> 200, total 700
 
         assertThat(cart.getTotalPriceInOre()).isEqualTo(700);
+    }
+
+    @Test
+    @DisplayName("addItem: kvantitet <= 0 kastar IllegalArgumentException (kanttest)")
+    void addItem_nonPositiveQuantity_throws() {
+        ShoppingCart cart = new ShoppingCart();
+
+        assertThatThrownBy(() -> cart.addItem("Fel", 100, 0))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("kvantitet");
     }
 }

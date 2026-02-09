@@ -20,6 +20,9 @@ public class ShoppingCart {
      * Lägger till en vara genom att öka totalpriset med pris * kvantitet.
      */
     public void addItem(String name, int priceInOre, int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Ogiltig kvantitet: måste vara > 0");
+        }
         // Spara enhetspris första gången vi ser varan
         unitPrices.putIfAbsent(name, priceInOre);
 
