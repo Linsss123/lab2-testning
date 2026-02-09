@@ -63,4 +63,14 @@ public class ShoppingCart {
         quantities.put(name, newQuantity);
         totalInOre += (newSubtotal - previousSubtotal);
     }
+
+    /**
+     * Applicerar en procentuell rabatt på nuvarande total.
+     * Exempel: percent=10 ger 10% lägre total.
+     */
+    public void applyPercentageDiscount(int percent) {
+        int discount = (totalInOre * percent) / 100;
+        totalInOre -= discount;
+        // Notera: Rabatten fördelas inte per vara i denna minimala implementation.
+    }
 }

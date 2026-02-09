@@ -66,4 +66,17 @@ class ShoppingCartTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("kvantitet");
     }
+
+    @Test
+    @DisplayName("Applicera procentuell rabatt på totalpriset")
+    void applyPercentageDiscount_reducesTotal() {
+        ShoppingCart cart = new ShoppingCart();
+
+        cart.addItem("A", 100, 1);  // 100 öre
+        cart.addItem("B", 400, 1);  // +400 = 500 öre
+
+        cart.applyPercentageDiscount(10); // 10% rabatt -> 450 öre
+
+        assertThat(cart.getTotalPriceInOre()).isEqualTo(450);
+    }
 }
