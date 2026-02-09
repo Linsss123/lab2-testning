@@ -69,6 +69,9 @@ public class ShoppingCart {
      * Exempel: percent=10 ger 10% lägre total.
      */
     public void applyPercentageDiscount(int percent) {
+        if (percent < 0 || percent > 100) {
+            throw new IllegalArgumentException("Ogiltig rabatt: percent måste vara 0..100");
+        }
         int discount = (totalInOre * percent) / 100;
         totalInOre -= discount;
         // Notera: Rabatten fördelas inte per vara i denna minimala implementation.

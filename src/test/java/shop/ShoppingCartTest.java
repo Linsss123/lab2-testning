@@ -79,4 +79,19 @@ class ShoppingCartTest {
 
         assertThat(cart.getTotalPriceInOre()).isEqualTo(450);
     }
+
+    @Test
+    @DisplayName("applyPercentageDiscount: percent < 0 eller > 100 kastar IllegalArgumentException (kanttest)")
+    void applyPercentageDiscount_invalid_throws() {
+        ShoppingCart cart = new ShoppingCart();
+        cart.addItem("A", 1000, 1);
+
+        assertThatThrownBy(() -> cart.applyPercentageDiscount(-1))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("rabatt");
+
+        assertThatThrownBy(() -> cart.applyPercentageDiscount(101))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("rabatt");
+    }
 }
