@@ -19,4 +19,14 @@ class ShoppingCartTest {
 
         assertThat(totalOre).isZero();
     }
+
+    @Test
+    @DisplayName("Lägga till en vara uppdaterar totalpriset")
+    void addItem_updatesTotal() {
+        ShoppingCart cart = new ShoppingCart();
+
+        cart.addItem("Äpple", 299, 2); // 2 st à 2,99 kr = 5,98 kr = 598 öre
+
+        assertThat(cart.getTotalPriceInOre()).isEqualTo(598);
+    }
 }
