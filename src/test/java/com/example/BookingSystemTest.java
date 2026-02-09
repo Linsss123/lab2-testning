@@ -153,7 +153,7 @@ class BookingSystemTest {
                 .hasMessageContaining("Rummet existerar inte");
     }
 
-    // --------- getAvailableRooms ---------
+    //getAvailableRooms
     static Stream<org.junit.jupiter.params.provider.Arguments> nullArgsForGetAvailableRooms() {
         LocalDateTime s = now().plusHours(1);
         LocalDateTime e = s.plusHours(1);
@@ -201,7 +201,7 @@ class BookingSystemTest {
         assertThat(available).containsExactlyInAnyOrder(r1, r3);
     }
 
-    // --------- cancelBooking ---------
+    //cancelBooking
     @Test
     @DisplayName("cancelBooking: bookingId null → IllegalArgumentException")
     void cancelBooking_nullId_throws() {
